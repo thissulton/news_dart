@@ -3,7 +3,6 @@ import 'package:berita_garut/src/src/models/news_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 class NewsService {
   final String baseApiUrl = 'https://rest-api-berita.vercel.app/api/v1';
 
@@ -284,8 +283,10 @@ class NewsService {
         final jsonData = json.decode(utf8.decode(response.bodyBytes));
         return jsonData['success'] == true;
       } else {
+        final errorBody = utf8.decode(response.bodyBytes);
+        print('Error response: $errorBody');
         throw Exception(
-          'Gagal membuat artikel (Status: ${response.statusCode})',
+          'Gagal membuat artikel (Status: ${response.statusCode}, Body: $errorBody)',
         );
       }
     } catch (e) {
